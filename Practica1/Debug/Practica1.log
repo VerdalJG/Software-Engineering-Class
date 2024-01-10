@@ -1,7 +1,7 @@
-﻿  Entity.cpp
-C:\Users\Verdal\Desktop\UNI\Software-Engineering-Class\Practica1\Entity.cpp(20,24): error C2676: binary '*': 'Entity::Directions' does not define this operator or a conversion to a type acceptable to the predefined operator
-C:\Users\Verdal\Desktop\UNI\Software-Engineering-Class\Practica1\Entity.cpp(51,24): error C2676: binary '*': 'Entity::Directions' does not define this operator or a conversion to a type acceptable to the predefined operator
+﻿  Bullet.cpp
+  Enemy.cpp
+  Entity.cpp
   Player.cpp
   Practica1.cpp
   Generating Code...
-C:\Users\Verdal\Desktop\UNI\Software-Engineering-Class\Practica1\Player.cpp(20): error C4716: 'Player::CollisionCheck': must return a value
+  Practica1.vcxproj -> C:\Users\vicente.cupello\Documents\vicente.c\Software-Engineering-Class\Practica1\Debug\Practica1.exe

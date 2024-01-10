@@ -10,18 +10,17 @@ protected:
 
 public:
 	void SetDirection(int direction);
-	virtual void Move();
-	virtual Entity* CollisionCheck(Entity* coll);
 	int DirectionToInt();
+	virtual void Move() {};
+	virtual bool CollisionCheck(Entity* coll) { return false; };
 	virtual void Spawn(int xPos, Directions direction) {};
 	virtual void Spawn() {};
-	virtual void Die();
+	virtual void Die() {};
 
 public:
 	int _xPos = -1;
-	Directions _direction = Directions::Left;
 	int _speed = 1;
-	void (*DeathFunction)();
+	Directions _direction = Directions::Left;
 	
 };
 

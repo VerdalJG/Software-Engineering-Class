@@ -18,25 +18,26 @@ void Bullet::Move()
 	_xPos += DirectionToInt();
 }
 
-Entity* Bullet::CollisionCheck(Entity* enemies)
+bool Bullet::CollisionCheck(Entity* enemies)
 {
 	for (int i = 0; i < 5; i++)
 	{
-		if ((enemies + i)->_xPos == _xPos)
+		if (_xPos == (enemies + i)->_xPos )
 		{
-			ResetBullet();
-			(enemies + i)->_xPos = -2;
-			return;
+			Die();
+			(enemies + i)->Die();
+			return true;
 		}
 	}
 	if (_xPos > 120 || _xPos < 0) // Border Check
 	{
-		ResetBullet();
-		return;
+		Die();
+		return true;
 	}
+	return false;
 }
 
-void Bullet::ResetBullet() 
+void Bullet::Die() 
 {
 	_xPos = -1;
 }

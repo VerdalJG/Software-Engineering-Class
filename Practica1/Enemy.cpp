@@ -24,28 +24,23 @@ void Enemy::Move()
 	}
 }
 
-Entity* Enemy::CollisionCheck(Entity* enemies)
+bool Enemy::CollisionCheck(Entity* bullets)
 {
-	if (_playerPtr->_xPos == _xPos) return;
-	if (enemyXPos == bulletXPos)
-	{
-		enemyXPos = -1;
-		bulletXPos = -1;
-		break;
-	}
+	if (_playerPtr->_xPos == _xPos) return true;
 
-	if (playerXPos == enemyXPos) return 0;
-	if (enemyXPos == bulletXPos)
+	for (int i = 0; i < 5; i++)
 	{
-		enemyXPos = -1;
-		bulletXPos = -1;
-		break;
+		if (_xPos == (bullets + i)->_xPos)
+		{
+			Die();
+			(bullets + i)->Die();
+			return true;
+		}
 	}
-
-	return nullptr;
+	return false;
 }
 
-void Enemy::ResetEnemy()
+void Enemy::Die()
 {
 	_xPos = -1;
 }

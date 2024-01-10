@@ -6,8 +6,10 @@ class Player : public Entity
 public:
 	Player(int speed);
 	void Move(int direction);
-	void OnCollide(Entity* other);
+	bool CollisionCheck(Entity* other);
 	void Die();
 	
+public:
+	bool _alive = true;
 };
 

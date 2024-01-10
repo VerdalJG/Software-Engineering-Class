@@ -181,7 +181,6 @@
 // Clean Version
 
 void StartSequence(int pos);
-void CollisionCheck(Entity*, Entity* (*DeathFunction)());
 
 int main()
 {
@@ -190,7 +189,7 @@ int main()
 	StartSequence(windowCenterPos);
 
 	// Spawn Player
-	Player player = Player::Player(windowCenterPos);
+	Player player = Player::Player(1);
 
 	int enemySpawnCounter = 500;
 
@@ -217,11 +216,13 @@ int main()
 		if ((GetAsyncKeyState(0x25) & 0x8000) != 0 && (GetAsyncKeyState(0x27) & 0x8000) == 0) // Left
 		{
 			player.Move(-1);
+			player.CollisionCheck(enemies[0]);
 		}
 
 		else if ((GetAsyncKeyState(0x27) & 0x8000) != 0 && (GetAsyncKeyState(0x25) & 0x8000) == 0) // Right
 		{
 			player.Move(1);
+			player.CollisionCheck(enemies[0]);
 		}
 
 		if ((GetAsyncKeyState(0x43) & 0x8000) != 0) // Shooting
@@ -243,19 +244,20 @@ int main()
 				for (int i = 0; i < bullet->_speed; i++)
 				{
 					bullet->Move();
-					bullet->CollisionCheck(enemies[0]);
+					if (bullet->CollisionCheck(enemies[0])) break;
+					
 				}
 			}
 		}
 
 		for (Entity* enemy : enemies)
 		{
-			if (enemy->_xPos != -2)
+			if (enemy->_xPos != -1)
 			{
 				for (int i = 0; i < enemy->_speed; i++)
 				{
 					enemy->Move();
-					enemy->CollisionCheck(enemies[0]);
+					if (enemy->CollisionCheck(bullets[0])) break;
 				}
 			}
 			else if (enemy->_xPos == -2 && enemySpawnCounter < 0)
@@ -270,6 +272,8 @@ int main()
 		{
 			enemySpawnCounter -= 17;
 		}
+
+		if (!player._alive) return 0;
 
 		// Drawing
 		Clear();
@@ -316,9 +320,4 @@ void StartSequence(int pos)
 
 	Sleep(800);
 	Clear();
-}
-
-void CollisionCheck(Entity*, Entity* (*DeathFunction)())
-{
-
 }
