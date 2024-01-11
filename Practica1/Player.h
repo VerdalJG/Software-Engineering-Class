@@ -1,13 +1,15 @@
 #pragma once
 #include "Entity.h"
+#include "Enemy.h"
 
 class Player : public Entity
 {
 public:
 	Player(int speed);
-	void Move(int direction);
 	bool CollisionCheck(Entity* other);
-	void Die();
+	virtual void Move(int direction);
+    
+	virtual void Die() override;
 	
 public:
 	bool _alive = true;

@@ -12,7 +12,6 @@ public:
 	void SetDirection(int direction);
 	int DirectionToInt();
 	virtual void Move() {};
-	virtual bool CollisionCheck(Entity* coll) { return false; };
 	virtual void Spawn(int xPos, Directions direction) {};
 	virtual void Spawn() {};
 	virtual void Die() {};

@@ -14,8 +14,6 @@
 // Down - 28
 // C - 43
 
-
-
 // Unorganized Version
 //
 //int main()
@@ -193,22 +191,34 @@ int main()
 
 	int enemySpawnCounter = 500;
 
-	Entity* bullets[5] =
+	Bullet bullets[5] =
 	{
+	Bullet::Bullet(),
+	Bullet::Bullet(),
+	Bullet::Bullet(),
+	Bullet::Bullet(),
+	Bullet::Bullet(),
+
+	/*new Bullet(),
 	new Bullet(),
 	new Bullet(),
 	new Bullet(),
-	new Bullet(),
-	new Bullet(),
+	new Bullet(),*/
 	};
 
-	Entity* enemies[5] =
+	Enemy enemies[5] =
 	{
+	Enemy::Enemy(&player),
+	Enemy::Enemy(&player),
+	Enemy::Enemy(&player),
+	Enemy::Enemy(&player),
+	Enemy::Enemy(&player),
+
+	/*new Enemy(&player),
 	new Enemy(&player),
 	new Enemy(&player),
 	new Enemy(&player),
-	new Enemy(&player),
-	new Enemy(&player),
+	new Enemy(&player),*/
 	};
 
 	while (true)
@@ -216,56 +226,38 @@ int main()
 		if ((GetAsyncKeyState(0x25) & 0x8000) != 0 && (GetAsyncKeyState(0x27) & 0x8000) == 0) // Left
 		{
 			player.Move(-1);
-			player.CollisionCheck(enemies[0]);
+			player.CollisionCheck(enemies);
 		}
 
 		else if ((GetAsyncKeyState(0x27) & 0x8000) != 0 && (GetAsyncKeyState(0x25) & 0x8000) == 0) // Right
 		{
 			player.Move(1);
-			player.CollisionCheck(enemies[0]);
+			player.CollisionCheck(enemies);
 		}
 
 		if ((GetAsyncKeyState(0x43) & 0x8000) != 0) // Shooting
 		{
 			for (int i = 0; i < 5; i++)
 			{
-				if (bullets[i]->_xPos == -1)
+				if (bullets[i]._xPos == -1)
 				{
-					bullets[i]->Spawn(player._xPos, player._direction);
+					bullets[i].Spawn(player._xPos, player._direction);
 					break;
 				}
 			}
 		}
 
-		for (Entity* bullet : bullets)
+		for (Bullet& bullet : bullets)
 		{
-			if (bullet->_xPos != -1)
+			if (bullet._xPos != -1)
 			{
-				for (int i = 0; i < bullet->_speed; i++)
+				for (int i = 0; i < bullet._speed; i++)
 				{
-					bullet->Move();
-					if (bullet->CollisionCheck(enemies[0])) break;
+					bullet.Move();
+					if (bullet.CollisionCheck(enemies)) break;
 					
 				}
 			}
-		}
-
-		for (Entity* enemy : enemies)
-		{
-			if (enemy->_xPos != -1)
-			{
-				for (int i = 0; i < enemy->_speed; i++)
-				{
-					enemy->Move();
-					if (enemy->CollisionCheck(bullets[0])) break;
-				}
-			}
-			else if (enemy->_xPos == -2 && enemySpawnCounter < 0)
-			{
-				enemy->Spawn();
-				enemySpawnCounter = 500;
-			}
-			
 		}
 
 		if (enemySpawnCounter > 0)
@@ -273,7 +265,36 @@ int main()
 			enemySpawnCounter -= 17;
 		}
 
-		if (!player._alive) return 0;
+		for (Enemy& enemy : enemies)
+		{
+			if (enemy._xPos != -5)
+			{
+				for (int i = 0; i < enemy._speed; i++)
+				{
+					enemy.Move();
+					if (enemy.CollisionCheck(bullets)) break;
+				}
+			}
+			else if (enemy._xPos == -5 && enemySpawnCounter < 0)
+			{
+				enemy.Spawn();
+				enemySpawnCounter = 500;
+			}
+			
+		}
+
+
+
+		if (!player._alive)
+		{
+			//for (int i = 0; i < 5; i++)
+			//{
+			//	/*delete(bullets[i]);
+			//	delete(enemies[i]);*/
+			//}
+			
+			return 0;
+		}
 
 		// Drawing
 		Clear();
@@ -284,18 +305,18 @@ int main()
 		printf("A");
 
 		// Bullets
-		for (Entity* bullet : bullets)
+		for (Bullet& bullet : bullets)
 		{
-			if (bullet->_xPos < 0) continue;
-			GoToX(bullet->_xPos);
+			if (bullet._xPos < 0) continue;
+			GoToX(bullet._xPos);
 			printf("o");
 		}
 
 		// Enemies
-		for (Entity* enemy : enemies)
+		for (Enemy& enemy : enemies)
 		{
-			if (enemy->_xPos < 0) continue;
-			GoToX(enemy->_xPos);
+			if (enemy._xPos < 0) continue;
+			GoToX(enemy._xPos);
 			printf("E");
 		}
 

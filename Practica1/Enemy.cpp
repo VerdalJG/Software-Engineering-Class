@@ -4,12 +4,14 @@
 Enemy::Enemy(Entity* playerPtr)
 {
 	_playerPtr = playerPtr;
+	_xPos = -5;
 }
 
 void Enemy::Spawn()
 {
 	int spawnSide = rand() % 2;
 	_xPos = spawnSide ? 120 : 0;
+	_direction = spawnSide ? Directions::Left : Directions::Right;
 }
 
 void Enemy::Move()
@@ -26,7 +28,12 @@ void Enemy::Move()
 
 bool Enemy::CollisionCheck(Entity* bullets)
 {
-	if (_playerPtr->_xPos == _xPos) return true;
+	if (_playerPtr->_xPos == _xPos)
+	{
+		Die();
+		_playerPtr->Die();
+		return true;
+	}
 
 	for (int i = 0; i < 5; i++)
 	{
@@ -42,5 +49,5 @@ bool Enemy::CollisionCheck(Entity* bullets)
 
 void Enemy::Die()
 {
-	_xPos = -1;
+	_xPos = -5;
 }

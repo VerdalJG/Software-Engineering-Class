@@ -22,7 +22,7 @@ bool Player::CollisionCheck(Entity* enemies)
 {
 	for (int i = 0; i < 5; i++)
 	{
-		if (_xPos == (enemies + i)->_xPos)
+		if (_xPos == (reinterpret_cast<Enemy*>(enemies) + i)->_xPos)
 		{
 			Die();
 			(enemies + i)->Die();

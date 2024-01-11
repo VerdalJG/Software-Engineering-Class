@@ -1,5 +1,6 @@
 #include "Bullet.h"
 
+
 Bullet::Bullet()
 {
 	_xPos = -1;
@@ -22,14 +23,14 @@ bool Bullet::CollisionCheck(Entity* enemies)
 {
 	for (int i = 0; i < 5; i++)
 	{
-		if (_xPos == (enemies + i)->_xPos )
+		if (_xPos == (reinterpret_cast<Enemy*>(enemies) + i)->_xPos )
 		{
 			Die();
-			(enemies + i)->Die();
+			(reinterpret_cast<Enemy*>(enemies) + i)->Die();
 			return true;
 		}
 	}
-	if (_xPos > 120 || _xPos < 0) // Border Check
+	if (_xPos >= 120 || _xPos <= 0) // Border Check
 	{
 		Die();
 		return true;
